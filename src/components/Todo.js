@@ -43,7 +43,7 @@ const Todo = () => {
                                 </div>
                                 :
                                 <div>
-                                    <button className='addbtn'>
+                                    <button disabled={!inputData?.trim()} className='addbtn' >
                                         Update
                                     </button>
                                     <button className='addbtn' onClick={cancel}>Cancel</button>
