@@ -76,7 +76,7 @@ const Todo = () => {
                         )}
                     <div>
                         {state?.list.length > 0 ?
-                            <button className='remove'
+                            <button className='remove' disabled={!toggle}
                                 onClick={() => dispatch(removetodo())}>Remove-All</button> : ""
                         }
                     </div>
