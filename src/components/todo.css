@@ -61,9 +61,6 @@ input {
   padding-left: 10px;
 }
 
-.btns {
-  width: 20%;
-}
 
 .completeData {
   margin-top: 10px;
@@ -93,8 +90,8 @@ form {
   color: red;
   cursor: pointer;
   font-size: 23px;
-margin-left: 10px;
-margin-right: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   border-radius: 10px;
   margin-top: 15px;
 
@@ -104,5 +101,14 @@ margin-right: 10px;
   .list {
     flex-direction: column;
     width: 200px;
+    align-items: center;
+  }
+
+  .data {
+    text-align: center;
+  }
+
+  .btns {
+    margin-bottom: 10px;
   }
 }

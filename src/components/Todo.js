@@ -20,7 +20,6 @@ const Todo = () => {
     const cancel = () => {
         setToggle(true); SetInputDdata("")
     }
-
     return (
         <div className='main-div'>
             <div className='child-div'>
