@@ -1,19 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Todo from './components/Todo';
 import { Provider } from "react-redux";
-import { store } from './store';
+import { store } from './store/store';
+import { BrowserRouter } from "react-router-dom";
+import App from './App';
+import './firebaseconfig'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Todo />
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );
 
 reportWebVitals();

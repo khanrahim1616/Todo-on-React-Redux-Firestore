@@ -1,31 +1,26 @@
-const initialData = {
-    list: []
-}
+import * as types from "../actions/types"
 
-// const getlocalstorage = () => {
-//     let list = localStorage.getItem('list')
-//     console.log(list);
-//     if (list) {
-//         return JSON.parse(localStorage.getItem('list'))
-//     } else {
-//         return []
-//     }
-// }
+const initialData = {
+    list: [],
+    user: false,
+    loading:true
+}
 
 export const todoReducers = (state = initialData, action) => {
 
     switch (action.type) {
 
-        case "ADD_TODO":
+        case types.ADD_TODO:
 
             const { data } = action.payload;
             return {
                 ...state, list: [
                     ...state.list,
-                    data,
+                    data, 
                 ]
             }
-        case "DELETE_TODO":
+
+        case types.DELETE_TODO:
 
             const newList = state.list.filter((e, index) => index !== action.index)
             return {
@@ -33,22 +28,28 @@ export const todoReducers = (state = initialData, action) => {
                 list: newList,
             }
 
-        case "REMOVE_TODO":
+        case types.REMOVE_TODO:
 
             return {
                 ...state,
                 list: []
             }
 
-        case "EDIT_TODO":
+        case types.EDIT_TODO:
+
             const array = [...state.list]
             array[action.index] = action.data
             return {
                 ...state,
                 list: array,
+            }
 
-
-
+        case types.USER_ID:
+            return {
+                ...state,
+                user: action.payload,
+                list: action.payload?.list,
+                loading: false
             }
 
         default: return state

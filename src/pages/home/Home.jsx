@@ -1,28 +1,70 @@
 import React, { useState } from 'react'
-import './todo.css'
+import { USER_ID } from '../../actions/types';
 import { useDispatch, useSelector } from 'react-redux'
-import { addtodo, deletetodo, removetodo, updateTodo } from '../actions'
+import { addtodo, deletetodo, removetodo, updateTodo } from '../../actions'
+import { getAuth, signOut } from "firebase/auth";
+import './todo.css' 
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from '../../firebaseconfig';
+import { useNavigate } from 'react-router';
 
 
 const Todo = () => {
+    const navigate = useNavigate()
     const [inputData, SetInputDdata] = useState('')
     const dispatch = useDispatch()
+    const auth = getAuth()
     const state = useSelector(state => state)
     const [index, setIndex] = useState('')
     const [toggle, setToggle] = useState(true)
-    const onSubmit = (e) => { e.preventDefault(); dispatch(addtodo(inputData)); SetInputDdata('') }
-    const update = (e) => {
-        e.preventDefault(); dispatch(updateTodo(inputData, index));
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        await updateDoc(doc(db, "user", state.user.id), { list: [...state.list, inputData] });
+        dispatch(addtodo(inputData));
+        SetInputDdata('')
+    }
+    const update = async (e) => {
+        let updatedData = [...state.list]
+        updatedData[index] = inputData
+        e.preventDefault();
+        await updateDoc(doc(db, "user", state.user.id), { list: updatedData });
+        dispatch(updateTodo(inputData, index));
         setToggle(true); SetInputDdata("")
         setIndex('')
     }
     const edit = (e, i) => { SetInputDdata(e); setIndex(i); setToggle(false) }
+
     const cancel = () => {
         setToggle(true); SetInputDdata("")
     }
+
+    const deletes = async (i) => {
+        const deleteIndex = state.list.filter((e, index) => i !== index)
+        await updateDoc(doc(db, "user", state.user.id), { list: deleteIndex });
+        dispatch(deletetodo(i))
+    }
+
+    const remove = async () => {
+        await updateDoc(doc(db, "user", state.user.id), { list: [] });
+
+    }
+
+    const signOutUser = () => {
+        signOut(auth).then(() => {
+            alert("are you sure?")
+            dispatch({ type: USER_ID, payload: false })
+            navigate("/")
+        }).catch((error) => {
+            alert(" An error happened.")
+        });
+    }
+
     return (
         <div className='main-div'>
             <div className='child-div'>
+                <div className='logout'>
+                    <button className='logout1' onClick={signOutUser} >LogOut</button>
+                </div>
                 <h1>
                     Add Your List Here <i className="fa-solid fa-solid fa-hand-peace add" />
                 </h1>
@@ -54,7 +96,7 @@ const Todo = () => {
                     {
                         state?.list.map((e, i) => {
                             return (
-                                <div className='list' >
+                                <div key={i} className='list' >
                                     <div className='data'>
                                         <p>
                                             {e}
@@ -62,10 +104,10 @@ const Todo = () => {
                                     </div>
                                     <div className='btns'>
                                         <button onClick={() => { edit(e, i) }} className='add1'>
-                                            <i class="fa-sharp fa-solid fa-pen-to-square"
+                                            <i className="fa-sharp fa-solid fa-pen-to-square"
                                             ></i>
                                         </button>
-                                        <button onClick={() => dispatch(deletetodo(i))} disabled={!toggle} className='add1'>
+                                        <button onClick={() => deletes(i)} disabled={!toggle} className='add1'>
                                             <i className="fa-solid fa-trash-can"
                                             ></i>
                                         </button>
@@ -77,7 +119,7 @@ const Todo = () => {
                     <div>
                         {state?.list.length > 0 ?
                             <button className='remove' disabled={!toggle}
-                                onClick={() => dispatch(removetodo())}>Remove-All</button> : ""
+                                onClick={() =>{ dispatch(removetodo());remove()}}>Remove-All</button> : ""
                         }
                     </div>
                 </div>

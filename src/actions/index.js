@@ -1,6 +1,8 @@
+import * as types from "./types"
+
 export const addtodo = (data) => {
     return {
-        type: "ADD_TODO",
+        type: types.ADD_TODO,
         payload: {
             data: data,
         }
@@ -9,14 +11,14 @@ export const addtodo = (data) => {
 
 export const deletetodo = (index) => {
     return {
-        type: "DELETE_TODO",
+        type: types.DELETE_TODO,
         index,
     }
 }
 
 export const updateTodo = (data, index) => {
     return {
-        type: "EDIT_TODO",
+        type: types.EDIT_TODO,
         data,
         index,
     }
@@ -24,6 +26,13 @@ export const updateTodo = (data, index) => {
 
 export const removetodo = () => {
     return {
-        type: "REMOVE_TODO",
+        type: types.REMOVE_TODO,
+    }
+}
+
+export const getUser = (payload) => {
+    return {
+        type: types.USER_ID,
+        payload,
     }
 }
