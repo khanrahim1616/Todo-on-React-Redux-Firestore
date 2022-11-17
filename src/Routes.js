@@ -3,19 +3,19 @@ import { Routes, Route } from "react-router-dom";
 import Todo from "./pages/home/Home";
 import Login from "./pages/login/login";
 import Signup from "./pages/signup/signup";
-
+import "./pages/home/todo.css"
 
 
 const RoutesFile = () => {
     const state = useSelector(state => state)
     if (state?.loading) return <  >
-        <div style={{ color: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            Loading.....
+        <div className="loader" style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <i class="fa-sharp fa-solid fa-loader"></i>
+            <p>Loading...</p>
         </div>
     </>
     return (
         <>
-
             {state?.user ?
                 <Routes>
                     <Route path="/Home" element={<Todo />} />

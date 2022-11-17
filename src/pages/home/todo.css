@@ -4,6 +4,14 @@ body {
   box-sizing: border-box;
 }
 
+.loader {
+  color: white;
+  display: "flex";
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 .main-div {
   text-align: center;
 }
@@ -25,11 +33,14 @@ body {
   margin: auto;
 
 }
-.logout{
-  text-align: end;
-  margin-right: 15px;
+
+.logout {
+  margin: 0px 15px;
+  display: flex;
+  justify-content: space-between;
 }
-.logout1{
+
+.logout1 {
   border-radius: 10px;
   padding: 8px;
   background-color: white;
@@ -110,6 +121,15 @@ form {
 
 }
 
+.username {
+  border-radius: 10px;
+  padding: 8px;
+  background-color: white;
+  color: red;
+  margin: 0;
+  font-size: 20px;
+}
+
 @media only screen and (max-width:600px) {
   .list {
     flex-direction: column;
@@ -118,10 +138,13 @@ form {
   }
 
 
-  .logout{
+  .logout {
     text-align: center;
-  margin-right: 0px;
+    /* flex-direction: column;     */
+    margin: 0px;
+    padding: 0px 10px;
   }
+
   .data {
     text-align: center;
   }

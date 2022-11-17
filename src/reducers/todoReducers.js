@@ -3,7 +3,7 @@ import * as types from "../actions/types"
 const initialData = {
     list: [],
     user: false,
-    loading:true
+    loading: true
 }
 
 export const todoReducers = (state = initialData, action) => {
@@ -16,7 +16,7 @@ export const todoReducers = (state = initialData, action) => {
             return {
                 ...state, list: [
                     ...state.list,
-                    data, 
+                    data,
                 ]
             }
 
@@ -45,6 +45,7 @@ export const todoReducers = (state = initialData, action) => {
             }
 
         case types.USER_ID:
+
             return {
                 ...state,
                 user: action.payload,

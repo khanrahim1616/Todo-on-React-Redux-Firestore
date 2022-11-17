@@ -14,14 +14,12 @@ const App = () => {
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user?.uid) {
-
         const docRef = doc(db, "user", user?.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           dispatch(getUser({ ...docSnap.data(), id: user?.uid }))
         } else {
           dispatch({ type: USER_ID, payload: false })
-          console.log("No such document!");
         }
       }
       else { dispatch({ type: USER_ID, payload: false }) }

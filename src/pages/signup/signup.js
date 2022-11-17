@@ -18,8 +18,8 @@ const Signup = () => {
     SetData({ ...data, ...input })
   }
 
-  let { email, password } = data
-
+  let { username, email, password } = data
+  console.log(data);
   const signup = (e) => {
     e.preventDefault()
     const auth = getAuth();
@@ -27,6 +27,7 @@ const Signup = () => {
       .then(async (res) => {
         alert("Successfull")
         await setDoc(doc(db, "user", res.user.uid), {
+          username: username,
           email: email,
           list: [],
         });
@@ -40,6 +41,7 @@ const Signup = () => {
     <div >
       <form className='signup' onSubmit={signup}>
         <h1 className='p'>Sign up</h1>
+        <input type="text" maxLength={12} placeholder='username' name='username' onChange={(e) => getData(e)} />
         <input type="email" placeholder='email' name='email' onChange={(e) => getData(e)} />
         <input type="password" placeholder='password' name='password' onChange={(e) => getData(e)} />
         <button type="submit" className="signupbtn">Sign Up</button>

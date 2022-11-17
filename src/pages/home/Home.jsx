@@ -3,7 +3,7 @@ import { USER_ID } from '../../actions/types';
 import { useDispatch, useSelector } from 'react-redux'
 import { addtodo, deletetodo, removetodo, updateTodo } from '../../actions'
 import { getAuth, signOut } from "firebase/auth";
-import './todo.css' 
+import './todo.css'
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../../firebaseconfig';
 import { useNavigate } from 'react-router';
@@ -15,14 +15,18 @@ const Todo = () => {
     const dispatch = useDispatch()
     const auth = getAuth()
     const state = useSelector(state => state)
+    const username = state.user.username
     const [index, setIndex] = useState('')
     const [toggle, setToggle] = useState(true)
+
     const onSubmit = async (e) => {
         e.preventDefault();
         await updateDoc(doc(db, "user", state.user.id), { list: [...state.list, inputData] });
         dispatch(addtodo(inputData));
+
         SetInputDdata('')
     }
+
     const update = async (e) => {
         let updatedData = [...state.list]
         updatedData[index] = inputData
@@ -32,6 +36,7 @@ const Todo = () => {
         setToggle(true); SetInputDdata("")
         setIndex('')
     }
+
     const edit = (e, i) => { SetInputDdata(e); setIndex(i); setToggle(false) }
 
     const cancel = () => {
@@ -63,6 +68,7 @@ const Todo = () => {
         <div className='main-div'>
             <div className='child-div'>
                 <div className='logout'>
+                    <h1 className='username'>Hi! {username}</h1>
                     <button className='logout1' onClick={signOutUser} >LogOut</button>
                 </div>
                 <h1>
@@ -119,7 +125,7 @@ const Todo = () => {
                     <div>
                         {state?.list.length > 0 ?
                             <button className='remove' disabled={!toggle}
-                                onClick={() =>{ dispatch(removetodo());remove()}}>Remove-All</button> : ""
+                                onClick={() => { dispatch(removetodo()); remove() }}>Remove-All</button> : ""
                         }
                     </div>
                 </div>
