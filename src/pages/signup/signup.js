@@ -6,6 +6,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from '../../firebaseconfig';
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router';
+import { Link } from "react-router-dom";
 
 
 
@@ -19,7 +20,6 @@ const Signup = () => {
   }
 
   let { username, email, password } = data
-  console.log(data);
   const signup = (e) => {
     e.preventDefault()
     const auth = getAuth();
@@ -41,10 +41,17 @@ const Signup = () => {
     <div >
       <form className='signup' onSubmit={signup}>
         <h1 className='p'>Sign up</h1>
-        <input type="text" maxLength={12} placeholder='username' name='username' onChange={(e) => getData(e)} />
-        <input type="email" placeholder='email' name='email' onChange={(e) => getData(e)} />
-        <input type="password" placeholder='password' name='password' onChange={(e) => getData(e)} />
+        <input required type="text" maxLength={12} placeholder='username' name='username' onChange={(e) => getData(e)} />
+        <input required type="email" placeholder='email' name='email' onChange={(e) => getData(e)} />
+        <input required type="password" placeholder='password' name='password' onChange={(e) => getData(e)} />
         <button type="submit" className="signupbtn">Sign Up</button>
+        <p className='signuplink'>
+          Already have an account
+          <span className='signuplink'>
+            <Link to="/" >Log-in</Link>
+          </span>
+        </p>
+
       </form>
     </div>
   )

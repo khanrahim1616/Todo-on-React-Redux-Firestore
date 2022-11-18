@@ -7,6 +7,7 @@ import './todo.css'
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../../firebaseconfig';
 import { useNavigate } from 'react-router';
+import Swal from "sweetalert2"
 
 
 const Todo = () => {
@@ -19,12 +20,11 @@ const Todo = () => {
     const [index, setIndex] = useState('')
     const [toggle, setToggle] = useState(true)
 
-    const onSubmit = async (e) => {
+    const add = async (e) => {
         e.preventDefault();
+        SetInputDdata('')
         await updateDoc(doc(db, "user", state.user.id), { list: [...state.list, inputData] });
         dispatch(addtodo(inputData));
-
-        SetInputDdata('')
     }
 
     const update = async (e) => {
@@ -37,10 +37,15 @@ const Todo = () => {
         setIndex('')
     }
 
-    const edit = (e, i) => { SetInputDdata(e); setIndex(i); setToggle(false) }
+    const edit = (e, i) => {
+        SetInputDdata(e);
+        setIndex(i);
+        setToggle(false)
+    }
 
     const cancel = () => {
-        setToggle(true); SetInputDdata("")
+        setToggle(true);
+        SetInputDdata("")
     }
 
     const deletes = async (i) => {
@@ -49,20 +54,47 @@ const Todo = () => {
         dispatch(deletetodo(i))
     }
 
-    const remove = async () => {
-        await updateDoc(doc(db, "user", state.user.id), { list: [] });
-
-    }
 
     const signOutUser = () => {
-        signOut(auth).then(() => {
-            alert("are you sure?")
-            dispatch({ type: USER_ID, payload: false })
-            navigate("/")
-        }).catch((error) => {
-            alert(" An error happened.")
-        });
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to sign-out!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'sure'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                signOut(auth).then(() => {
+                    // alert("are you sure?")
+                    dispatch({ type: USER_ID, payload: false })
+                    navigate("/")
+                }).catch((error) => {
+                    alert(error)
+                });
+            }
+        })
     }
+
+
+    const remove = () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "you want to Remove-all!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'sure'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await updateDoc(doc(db, "user", state.user.id), { list: [] });
+                dispatch(removetodo());
+            }
+        })
+    }
+
 
     return (
         <div className='main-div'>
@@ -75,7 +107,7 @@ const Todo = () => {
                     Add Your List Here <i className="fa-solid fa-solid fa-hand-peace add" />
                 </h1>
                 <div className='addItems'>
-                    <form onSubmit={toggle ? onSubmit : update}>
+                    <form onSubmit={toggle ? add : update}>
                         <input type="text"
                             maxLength={80}
                             value={inputData}
@@ -84,16 +116,16 @@ const Todo = () => {
                         {
                             toggle ?
                                 <div>
-                                    <button className='addbtn' disabled={!inputData?.trim()}>
+                                    <button className='addbtn buttonHover' disabled={!inputData?.trim()}>
                                         ADD
                                     </button>
                                 </div>
                                 :
                                 <div>
-                                    <button disabled={!inputData?.trim()} className='addbtn' >
+                                    <button disabled={!inputData?.trim()} className='addbtn buttonHover' >
                                         Update
                                     </button>
-                                    <button className='addbtn' onClick={cancel}>Cancel</button>
+                                    <button className='addbtn buttonHover' onClick={cancel}>Cancel</button>
                                 </div>
                         }
                     </form>
@@ -109,11 +141,11 @@ const Todo = () => {
                                         </p>
                                     </div>
                                     <div className='btns'>
-                                        <button onClick={() => { edit(e, i) }} className='add1'>
+                                        <button onClick={() => { edit(e, i) }} className='add1 buttonHover'>
                                             <i className="fa-sharp fa-solid fa-pen-to-square"
                                             ></i>
                                         </button>
-                                        <button onClick={() => deletes(i)} disabled={!toggle} className='add1'>
+                                        <button onClick={() => deletes(i)} disabled={!toggle} className='add1 buttonHover'>
                                             <i className="fa-solid fa-trash-can"
                                             ></i>
                                         </button>
@@ -123,9 +155,9 @@ const Todo = () => {
                         }
                         )}
                     <div>
-                        {state?.list.length > 0 ?
-                            <button className='remove' disabled={!toggle}
-                                onClick={() => { dispatch(removetodo()); remove() }}>Remove-All</button> : ""
+                        {state?.list.length > 0 &&
+                            <button className='remove buttonHover' disabled={!toggle}
+                                onClick={remove}>Remove-All</button>
                         }
                     </div>
                 </div>

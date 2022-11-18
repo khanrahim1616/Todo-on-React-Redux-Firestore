@@ -9,9 +9,8 @@ import "./pages/home/todo.css"
 const RoutesFile = () => {
     const state = useSelector(state => state)
     if (state?.loading) return <  >
-        <div className="loader" style={{ height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <i class="fa-sharp fa-solid fa-loader"></i>
-            <p>Loading...</p>
+        <div className="loader" style={{ color: "white", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <i style={{ color: "white" }} className="fa-solid fa-spinner loaderSize"></i>
         </div>
     </>
     return (

@@ -26,17 +26,16 @@ const Login = () => {
                 alert(error)
             });
     }
+    
     return (
         <div >
             <form className='signup' onSubmit={signinuser}>
                 <h1 className='p'>Log in</h1>
-                <input type="email" placeholder='email' name='email' onChange={(e) => getData(e)} />
-                <input type="password" placeholder='password' name='password' onChange={(e) => getData(e)} />
+                <input required type="email" placeholder='email' name='email' onChange={(e) => getData(e)} />
+                <input required type="password" placeholder='password' name='password' onChange={(e) => getData(e)} />
                 <p className='p'>If you dont have account
                     <span className='signuplink'>
-                        <Link to="/signup" >
-                            Sign Up
-                        </Link>
+                        <Link to="/signup" >Sign Up</Link>
                     </span>
                 </p>
                 <button type="submit" className="signupbtn">Log in</button>
