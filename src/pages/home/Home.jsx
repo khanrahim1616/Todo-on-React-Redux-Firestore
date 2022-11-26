@@ -35,8 +35,8 @@ const Todo = () => {
     let updatedData = [...state.list];
     updatedData[index] = inputData;
     e.preventDefault();
-    await updateDoc(doc(db, "user", state.user.id), { list: updatedData });
-    dispatch(updateTodo(inputData, index));
+    await updateDoc(doc(db, "user", state.user.id), { list: updatedData.trim() });
+    dispatch(updateTodo(inputData.trim(), index));
     setToggle(true);
     SetInputDdata("");
     setIndex("");
