@@ -25,9 +25,9 @@ const Todo = () => {
     setLoader(true);
     SetInputDdata("");
     await updateDoc(doc(db, "user", state.user.id), {
-      list: [...state.list, inputData],
+      list: [...state.list, inputData.trim()],
     });
-    dispatch(addtodo(inputData));
+    dispatch(addtodo(inputData.trim()));
     setLoader(false);
   };
 
