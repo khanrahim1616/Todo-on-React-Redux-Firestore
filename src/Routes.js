@@ -27,8 +27,6 @@ const RoutesFile = () => {
                     <Route path="*" element={<Login />} />
                 </Routes>
             }
-
-            {/* </Routes> */}
         </>
     );
 }

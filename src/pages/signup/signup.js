@@ -4,7 +4,6 @@ import "../signup/signup.css"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from '../../firebaseconfig';
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router';
 import { Link } from "react-router-dom";
 
@@ -12,7 +11,6 @@ import { Link } from "react-router-dom";
 
 const Signup = () => {
   const [data, SetData] = useState({})
-  const state = useSelector(state => state)
   const navigate = useNavigate()
   const getData = (e) => {
     let input = { [e.target.name]: e.target.value }
