@@ -8,8 +8,10 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseconfig";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { useEffect, useRef } from "react";
 
 const Todo = () => {
+  const input = useRef(null);
   const navigate = useNavigate();
   const [inputData, SetInputDdata] = useState("");
   const dispatch = useDispatch();
@@ -100,6 +102,10 @@ const Todo = () => {
     });
   };
 
+  useEffect(() => {
+    input.current.focus();
+  }, [inputData]);
+
   return (
     <div className="main-div">
       <div className="child-div">
@@ -117,6 +123,7 @@ const Todo = () => {
           <form onSubmit={toggle ? add : update}>
             <input
               type="text"
+              ref={input}
               maxLength={80}
               value={inputData}
               onChange={(event) => SetInputDdata(event.target.value)}
